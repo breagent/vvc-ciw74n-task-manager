@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - UI Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .btn-new {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-new:hover {
+            background: #1d4ed8;
+            transform: scale(1.02);
+        }
+
+        .btn-new:active {
+            transform: scale(0.98);
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #2563eb;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sort-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            background: white;
+        }
+
+        /* Task List */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Task Card */
+        .task-card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            border-left: 4px solid;
+            transition: all 0.2s ease;
+            display: flex;
+            gap: 12px;
+        }
+
+        .task-card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+
+        .task-card.priority-high {
+            border-left-color: #dc2626;
+        }
+
+        .task-card.priority-medium {
+            border-left-color: #f59e0b;
+        }
+
+        .task-card.priority-low {
+            border-left-color: #10b981;
+        }
+
+        .task-card.overdue {
+            background: #fef2f2;
+        }
+
+        .task-card.due-soon {
+            background: #fffbeb;
+        }
+
+        .task-card.completed {
+            opacity: 0.6;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .priority-badge.high {
+            background: #dc2626;
+            color: white;
+        }
+
+        .priority-badge.medium {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .priority-badge.low {
+            background: #10b981;
+            color: white;
+        }
+
+        .task-title {
+            font-size: 16px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .task-card.completed .task-title {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        .task-menu {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #6b7280;
+            padding: 0 8px;
+            border-radius: 4px;
+        }
+
+        .task-menu:hover {
+            background: #f3f4f6;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 14px;
+            color: #6b7280;
+            align-items: center;
+        }
+
+        .task-deadline {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .task-deadline.overdue {
+            color: #991b1b;
+            font-weight: 600;
+        }
+
+        .task-deadline.due-soon {
+            color: #f97316;
+            font-weight: 600;
+        }
+
+        .task-priority-label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .task-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+        }
+
+        .modal-close:hover {
+            background: #f3f4f6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        .form-label .required {
+            color: #dc2626;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #f3f4f6;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            padding: 60px 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .empty-state-text {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .task-card {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .task-card.overdue .priority-badge {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Task Manager</h1>
+            <button class="btn-new" onclick="openModal()">+ New Task</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="tabs">
+                <button class="tab active">All Tasks</button>
+                <button class="tab">Active</button>
+                <button class="tab">Completed</button>
+            </div>
+            <div class="sort-controls">
+                <span class="sort-label">Sort by:</span>
+                <select>
+                    <option>Deadline</option>
+                    <option>Priority</option>
+                    <option>Date Created</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Task List -->
+        <div class="task-list">
+            <!-- Overdue Task -->
+            <div class="task-card priority-high overdue">
+                <input type="checkbox" class="task-checkbox">
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge high">!</span>
+                        <h3 class="task-title">Submit tax documents</h3>
+                        <button class="task-menu">⋮</button>
+                    </div>
+                    <div class="task-meta">
+                        <span class="task-deadline overdue">📅 Due: Yesterday</span>
+                        <span>•</span>
+                        <span class="task-priority-label">High Priority</span>
+                    </div>
+                    <div class="task-description">
+                        Need to gather all receipts and submit before the deadline
+                    </div>
+                </div>
+            </div>
+
+            <!-- Due Soon Task -->
+            <div class="task-card priority-high due-soon">
+                <input type="checkbox" class="task-checkbox">
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge high">!</span>
+                        <h3 class="task-title">Finish project report</h3>
+                        <button class="task-menu">⋮</button>
+                    </div>
+                    <div class="task-meta">
+                        <span class="task-deadline due-soon">📅 Due: Today, 5:00 PM</span>
+                        <span>•</span>
+                        <span class="task-priority-label">High Priority</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medium Priority Task -->
+            <div class="task-card priority-medium">
+                <input type="checkbox" class="task-checkbox">
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge medium">-</span>
+                        <h3 class="task-title">Schedule team meeting</h3>
+                        <button class="task-menu">⋮</button>
+                    </div>
+                    <div class="task-meta">
+                        <span class="task-deadline">📅 Due: Tomorrow, 10:00 AM</span>
+                        <span>•</span>
+                        <span class="task-priority-label">Medium Priority</span>
+                    </div>
+                    <div class="task-description">
+                        Find a time that works for all team members
+                    </div>
+                </div>
+            </div>
+
+            <!-- Low Priority Task -->
+            <div class="task-card priority-low">
+                <input type="checkbox" class="task-checkbox">
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge low">·</span>
+                        <h3 class="task-title">Update project documentation</h3>
+                        <button class="task-menu">⋮</button>
+                    </div>
+                    <div class="task-meta">
+                        <span class="task-deadline">📅 Due: Feb 10, 2026</span>
+                        <span>•</span>
+                        <span class="task-priority-label">Low Priority</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Task -->
+            <div class="task-card priority-medium completed">
+                <input type="checkbox" class="task-checkbox" checked>
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge medium">-</span>
+                        <h3 class="task-title">Review weekly goals</h3>
+                        <button class="task-menu">⋮</button>
+                    </div>
+                    <div class="task-meta">
+                        <span class="task-deadline">📅 Due: Jan 20, 2026</span>
+                        <span>•</span>
+                        <span class="task-priority-label">Medium Priority</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-backdrop" id="taskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Task</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <label class="form-label">
+                        Task Title <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input" placeholder="Enter task name..." required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description (optional)</label>
+                    <textarea class="form-textarea" placeholder="Add details..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Deadline</label>
+                    <div class="form-row">
+                        <input type="date" class="form-input" value="2026-02-06">
+                        <input type="time" class="form-input" value="14:00">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="priority" id="high" value="high">
+                            <label for="high">High</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="priority" id="medium" value="medium" checked>
+                            <label for="medium">Medium</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="priority" id="low" value="low">
+                            <label for="low">Low</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('taskModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('taskModal').classList.remove('active');
+        }
+
+        // Close modal on backdrop click
+        document.getElementById('taskModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
